@@ -58,6 +58,7 @@ $(document).ready( async () => {
 
     //Button Listeners
     $("#btnConnectWallet").click( async (e) => {
+        e.preventDefault();
             window.ethereum.enable();
             await window.ethereum.request({
                 method: "wallet_requestPermissions",
@@ -79,6 +80,7 @@ $(document).ready( async () => {
     })
 
     $("#btnConnectWalletStaking").click( async (e) => {
+        e.preventDefault();
         window.ethereum.enable();
         await window.ethereum.request({
             method: "wallet_requestPermissions",
@@ -100,6 +102,7 @@ $(document).ready( async () => {
     })
 
     $("#btnConnectWalletUnstaking").click(async (e) => {
+        e.preventDefault();
         window.ethereum.enable();
         await window.ethereum.request({
             method: "wallet_requestPermissions",
@@ -119,6 +122,7 @@ $(document).ready( async () => {
             $("#btnConnectWalletStaking").hide();
             $("#btnConnectWalletUnstaking").hide();
     })
+    
     $("#btnDisconnectWallet").click( async (e) => {
         e.preventDefault();
         $("#btnConnectWallet").html("Connect");

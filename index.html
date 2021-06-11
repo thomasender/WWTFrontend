@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ICON -->
+    <link rel="shortcut icon" href="https://wwtstakingv2.netlify.app/faviconWWT.png" />
+    <!-- JQUERY -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- WEB3 -->
+    <script src="web3.min.js"></script>
+    <!-- ABIS -->
+    <script src="abiToken.js"></script>
+    <script src="abi.js"></script>
+    <script src="abiTokenPair.js"></script>
+    <!-- INDEX.JS -->
+    <script src="index.js"></script>
+
+    <title>WWT Staking</title>
+</head>
+<body style="background-color: #333">
+    <div class="d-sm-flex">
+    <div class="container">
+            <!-- NAVBAR -->
+        <nav class="navbar navbar-dark text-light">
+            <div id="warningChainId" style="background-color: red; width: 100%; text-align: center">You are not connected to Ropsten (ChainId 3). Please change network to use this DApp</div>
+            <a class="navbar-brand" href="#">
+              <img src="logoWWT.png" width="30" height="30" class="d-inline-block align-top" alt="">
+              Welcome the WWT Bar - the place to stake your WWT
+            </a>
+            <!-- LOGIN/LOGOUT BUTTONS -->
+                <div class="col"> <button class="btn btn-outline-success" id="btnConnectWallet" style="width: 400px;">Connect</button></div>
+                <div class="col"> <button class="btn btn-outline-danger" id="btnDisconnectWallet" style="width: 100px;">Logout</button></div>
+        </nav>
+            <!-- TEXT -->
+        <div class="row">
+          <div class="col">
+            <div class="card my-3 bg-dark text-light">
+                <div class="card-body">
+                    <div class="card-header bg-dark text-light">
+                        Maximize Yield by staking WWT
+                      </div>
+                   <p id="name" style="font-size: 12px;">For every swap on the exchange on every chain, 0.05% of the swap fees are distributed as WWT proportional to your share of the WWTBar. When your WWT is staked into the WWTBar, you recieve xWWT in return for voting rights and a fully composable token that can interact with other protocols. Your xWWT is continuously compounding, when you unstake you will receive all the originally deposited WWT and any additional from fees.
+                </p>
+                </div>
+              </div>
+          </div>
+          <!-- LOGO -->
+          <div class="col">
+              <img src="logoWWT.png" style="width: 200px; border-radius: 25%;">
+          </div>
+        </div>
+        <!-- STAKING & BALANCE SECTION COMPLETE -->
+        <div class="row">
+            <div class="col-6">
+                <div class="card bg-dark text-light" style="border-color: #fff">
+                    <!-- STAKING SECTION HEADER -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="card bg-dark text-light" style="border-color: #fff">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <strong>Next Staking APR</strong>
+                                        </div>
+                                        <div class="col">
+                                            <strong>6.53%</strong>
+                                        </div>
+                                    </div>                   
+                                </div>
+                              </div>
+                              <!-- STAKING/UNSTAKING SECTION TABS -->
+                            <div class="card my-3 bg-dark text-light" style="border-color: #fff">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-primary" id="btnStake" style="width: 100%; margin-top: 10px;">Stake</button>
+                                        </div>
+                                        <div class="col-6">   
+                                            <button type="submit" class="btn btn-primary" id="btnUnstake" style="width: 100%; margin-top: 10px;">Unstake</button>
+                                        </div>
+                                    </div>  
+                                </div>
+                               
+                                <div class="card-body">
+                                    <!-- STAKING SECTION-->
+                                    <div id="stakeUI">
+                                        <!-- <div class="row">
+                                            <div class="col">
+                                                <p>Stake WWT</p>
+                                            </div>
+                                            <div class="col">
+                                                <p id="Pair"></p>
+                                            </div>
+                                        </div> -->
+                                        <!-- STAKING INPUT SECTION -->
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="col">
+                                                <input type="number" id="amountToStake" placeholder="WWT" style="width: 80%; border-radius: 5px" required/>
+                                                <button type="submit" class="btn btn-outline-info" id="btnStakeMax">MAX</button>
+                                            </div>
+                                           
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary" id="btnApproveAmount" style="margin-bottom: 10px; width: 100%">Approve</button>
+                                        <!-- <button type="submit" class="btn btn-secondary" id="btnApproveMax" style="margin-bottom: 10px; width: 100%">Approve Max</button> -->
+                                        <button type="submit" class="btn btn-primary" id="btnStakeAmount" style="margin-bottom: 10px; width: 100%">Stake Amount</button>
+                                        <button class="btn btn-outline-success" id="btnConnectWalletStaking" style="width: 100%">Connect Wallet</button>
+                                    </div>
+                                    <!-- UNSTAKING SECTION -->
+                                    <div id="unstakeUI">
+                                        <!-- <div class="row">
+                                            <div class="col">
+                                                <p>Unstake WWT</p>
+                                            </div>
+                                            <div class="col">
+                                                <p id="Pair2"></p>
+                                            </div>
+                                        </div> -->
+                                    <!-- UNSTAKE INPUT SECTION -->
+                                    <div class="row" style="padding: 10px;">
+                                        <div class="col">
+                                            <input type="number" id="amountToUnstake" placeholder="xWWT" style="width: 80%; border-radius: 5px" required/>
+                                            <button type="submit" class="btn btn-outline-info" id="btnUnstakeMax">MAX</button>
+                                        </div>
+                                    </div>
+                                        <button type="submit" class="btn btn-primary" id="btnUnstakeAmount" style="margin-bottom: 10px;  width: 100%">Unstake Amount</button>
+                                        <button class="btn btn-outline-success" id="btnConnectWalletUnstaking" style="width: 100%">Connect Wallet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BALANCE SECTION -->
+            <div class="col-2">
+                <div class="card bg-dark text-light" style="border-color: #fff;">
+                    <div class="card-body">
+                        <strong>WWT Price</strong>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p id="wwtPrice" style="text-align: center;"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bg-dark text-light" style="border-color: #fff">
+                  <div class="card-body">
+                    <strong><p>Balance</p></strong>
+                    <div class="row">
+                        <div class="card bg-dark text-light" style="border-color: #fff">
+                            <div class="card-body">
+                               <strong><p id="xWWTBalance"></p></strong> 
+                                <p>xWWT</p>
+                                <p id="Pair"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card bg-dark text-light" style="border-color: #fff">
+                            <div class="card-body">
+                                <strong><p id="WWTBalance"></p></strong>
+                                <p>Unstaked</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                </div>
+            </div>
+          </div>
+        <!-- ADD TOKENS BUTTONS -->
+        <div class="row">
+            <div class="col"> <button class="btn btn-outline-success" id="btnAddTokenToWallet" style="width: 33%">Add WWT To Wallet</button>
+              <button class="btn btn-outline-success" id="btnAddxTokenToWallet" style="width: 33%">Add xWWT To Wallet</button>
+            </div>
+        </div>
+      </div> 
+    </div>
+</body>
+</html>

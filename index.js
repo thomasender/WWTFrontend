@@ -73,6 +73,19 @@ $(document).ready(async () => {
     $("#btnApproveAmount").show();
     $("#btnConnectWalletStaking").hide();
     $("#btnConnectWalletUnstaking").hide();
+    if (userAllowance === maxAllowance) {
+      $("#btnApproveAmount").hide();
+      // $("#btnApproveMax").hide();
+      $("#btnStakeAmount").show();
+    } else if (userAllowance <= maxAllowance && userAllowance >= "0") {
+      $("#btnApproveAmount").hide();
+      // $("#btnApproveMax").show();
+      $("#btnStakeAmount").show();
+    } else {
+      $("#btnApproveAmount").show();
+      // $("#btnApproveMax").show();
+      $("#btnStakeAmount").hide();
+    }
   });
 
   $("#btnConnectWalletStaking").click(async (e) => {
@@ -95,6 +108,19 @@ $(document).ready(async () => {
     $("#btnApproveAmount").show();
     $("#btnConnectWalletStaking").hide();
     $("#btnConnectWalletUnstaking").hide();
+    if (userAllowance === maxAllowance) {
+      $("#btnApproveAmount").hide();
+      // $("#btnApproveMax").hide();
+      $("#btnStakeAmount").show();
+    } else if (userAllowance <= maxAllowance && userAllowance >= "0") {
+      $("#btnApproveAmount").hide();
+      // $("#btnApproveMax").show();
+      $("#btnStakeAmount").show();
+    } else {
+      $("#btnApproveAmount").show();
+      // $("#btnApproveMax").show();
+      $("#btnStakeAmount").hide();
+    }
   });
 
   $("#btnConnectWalletUnstaking").click(async (e) => {
@@ -318,22 +344,9 @@ async function init() {
   userAllowance = await wwt.methods.allowance(user, wwtBarAddress).call();
   maxAllowance =
     "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-  //Fetch token Price through token Pair contract
-  await fetchPrice();
 
-  if (userAllowance === maxAllowance) {
-    $("#btnApproveAmount").hide();
-    // $("#btnApproveMax").hide();
-    $("#btnStakeAmount").show();
-  } else if (userAllowance <= maxAllowance && userAllowance >= "0") {
-    $("#btnApproveAmount").hide();
-    // $("#btnApproveMax").show();
-    $("#btnStakeAmount").show();
-  } else {
-    $("#btnApproveAmount").show();
-    // $("#btnApproveMax").show();
-    $("#btnStakeAmount").hide();
-  }
+  //Fetch token Price through token Pair contract
+  fetchPrice();
 }
 
 //Load Staking Data ()

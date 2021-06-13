@@ -231,16 +231,22 @@ $(document).ready(async () => {
       alert("Please enter a valid amount");
     } else {
       amountToStake = web3.utils.toWei(amountToStake, "ether");
+      $("#btnStakeAmount").prop("disabled", true);
+      $("#btnUnstakeAmount").prop("disabled", true);
       await wwtBar.methods
         .enter(amountToStake)
         .send({ from: user })
         .on("receipt", () => {
+          $("#btnStakeAmount").prop("disabled", false);
+          $("#btnUnstakeAmount").prop("disabled", false);
           loadContractData();
           //   $("#btnStakeAmount").hide();
           //   $("#btnApproveAmount").show();
         })
         .on("error", (error) => {
           alert(error.message);
+          $("#btnStakeAmount").prop("disabled", false);
+          $("#btnUnstakeAmount").prop("disabled", false);
         });
     }
   });
@@ -253,15 +259,20 @@ $(document).ready(async () => {
       alert("Please enter a valid amount");
     } else {
       try {
+        $("#btnStakeAmount").prop("disabled", true);
+        $("#btnUnstakeAmount").prop("disabled", true);
         await wwtBar.methods
           .leave(amountToUnstake)
           .send({ from: user })
           .on("receipt", () => {
+            $("#btnStakeAmount").prop("disabled", false);
+            $("#btnUnstakeAmount").prop("disabled", false);
             loadContractData();
           });
       } catch (error) {
-        console.error(error);
         alert(error.message);
+        $("#btnStakeAmount").prop("disabled", false);
+        $("#btnUnstakeAmount").prop("disabled", false);
       }
     }
   });

@@ -205,10 +205,12 @@ $(document).ready(async () => {
           $("#btnApproveAmount").hide();
           $("#btnStakeAmount").show();
           $("#btnApproveAmount").prop("disabled", false);
+          $("#amountToStake").val(0.0);
         })
         .on("error", (error) => {
           alert(error.message);
           $("#btnApproveAmount").prop("disabled", false);
+          $("#amountToStake").val(0.0);
         });
     }
   });

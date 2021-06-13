@@ -197,15 +197,18 @@ $(document).ready(async () => {
     if (amountToStake <= 0) {
       alert("Please enter a valid amount");
     } else {
+      $("#btnApproveAmount").prop("disabled", true);
       await wwt.methods
         .approve(wwtBarAddress, amountToStake)
         .send({ from: user })
-        .on("confirmation", (confirmationNumber, receipt) => {
+        .on("receipt", (receipt) => {
           $("#btnApproveAmount").hide();
           $("#btnStakeAmount").show();
+          $("#btnApproveAmount").prop("disabled", false);
         })
         .on("error", (error) => {
           alert(error.message);
+          $("#btnApproveAmount").prop("disabled", false);
         });
     }
   });
@@ -239,6 +242,7 @@ $(document).ready(async () => {
         .on("receipt", () => {
           $("#btnStakeAmount").prop("disabled", false);
           $("#btnUnstakeAmount").prop("disabled", false);
+          $("#amountToStake").val(0.0);
           loadContractData();
           //   $("#btnStakeAmount").hide();
           //   $("#btnApproveAmount").show();
@@ -247,6 +251,7 @@ $(document).ready(async () => {
           alert(error.message);
           $("#btnStakeAmount").prop("disabled", false);
           $("#btnUnstakeAmount").prop("disabled", false);
+          $("#amountToStake").val(0.0);
         });
     }
   });
@@ -267,12 +272,14 @@ $(document).ready(async () => {
           .on("receipt", () => {
             $("#btnStakeAmount").prop("disabled", false);
             $("#btnUnstakeAmount").prop("disabled", false);
+            $("#amountToUnstake").val(0.0);
             loadContractData();
           });
       } catch (error) {
         alert(error.message);
         $("#btnStakeAmount").prop("disabled", false);
         $("#btnUnstakeAmount").prop("disabled", false);
+        $("#amountToUnstake").val(0.0);
       }
     }
   });
